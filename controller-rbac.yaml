@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: clusterscan-controller-role
+rules:
+- apiGroups: ["batch"]
+  resources: ["jobs", "cronjobs"]
+  verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["scanning.example.com"]
+  resources: ["clusterscans", "clusterscans/status"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: clusterscan-controller-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: clusterscan-controller-manager
+  namespace: clusterscan-system
+roleRef:
+  kind: ClusterRole
+  name: clusterscan-controller-role
+  apiGroup: rbac.authorization.k8s.io

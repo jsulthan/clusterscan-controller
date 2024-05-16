@@ -1,0 +1,7 @@
+apiVersion: scanning.jam.clus.com/v1alpha1
+kind: ClusterScan
+metadata:
+  name: clusterscan-sample
+spec:
+  schedule: "*/5 * * * *"
+  scanType: "kube-bench"
